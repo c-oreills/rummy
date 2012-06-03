@@ -54,7 +54,16 @@ def valid_run(group):
                 return False
             run.append(jokers.pop())
     run.append(nums[m])
-    # If we have jokers left over, invalid run
-    if jokers:
+    # If we have jokers left over, tack onto the end if possible
+    min_num, max_num = run[0].num, run[-1].num
+    while jokers:
+        if min_num > 1:
+            min_num -= 1
+            run.insert(0, jokers.pop())
+            continue
+        if max_num < 13:
+            max_num += 1
+            run.append(jokers.pop())
+            continue
         return False
     return run
